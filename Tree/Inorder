@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+struct node* createNode(int value)
+{
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));
+    if (newNode == NULL)
+        return NULL;
+
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct node* createTree()
+{
+    int value;
+    printf("Enter the value (-1 for NULL): ");
+    scanf("%d", &value);
+
+    if (value == -1)
+        return NULL;
+
+    struct node *root = createNode(value);
+
+    printf("Enter the left child of %d\n", value);
+    root->left = createTree();
+
+    printf("Enter the right child of %d\n", value);
+    root->right = createTree();
+
+    return root;
+}
+
+void inorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+int main()
+{
+    struct node *root;   
+
+    printf("Create a binary tree\n");
+    root = createTree();
+
+    printf("Inorder traversal: ");
+    inorder(root);
+
+    return 0;
+}
